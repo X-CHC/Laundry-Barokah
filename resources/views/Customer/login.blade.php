@@ -108,7 +108,7 @@
                         </button>
                         
                         <div class="d-flex justify-content-between">
-                            <a href="#" class="small text-primary">Daftar Akun</a>
+                            <a href="/customer/register" class="small text-primary">Daftar Akun</a>
                         </div>
                     </form>
                 </div>

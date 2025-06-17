@@ -159,9 +159,11 @@
         </td>
         <td>Rp {{ number_format($order->price, 0, ',', '.') }}</td>
         <td>
-            <a href="{{ route('customer.orders.show', ['id_pesanan' => $order->id_pesanan]) }}" class="btn btn-sm btn-outline-primary">
-                <span class="badge badge-warning">Cetak</span>
-            </a>
+            <a href="{{ route('customer.orders.print', ['id_pesanan' => $order->id_pesanan]) }}" 
+   class="btn btn-sm btn-outline-primary" 
+   target="_blank"> <!-- Tambahkan target="_blank" untuk buka di tab baru -->
+    <i class="fas fa-print me-1"></i> Cetak Nota
+</a>
         </td>
     </tr>
     @endforeach

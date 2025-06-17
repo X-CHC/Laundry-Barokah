@@ -6,6 +6,7 @@ use App\Models\Pesanan;
 use App\Models\Customer; 
 use App\Models\Layanan;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PesananController extends Controller
 {
@@ -177,5 +178,20 @@ public function store(Request $request)
 
     return redirect()->route('customers.show', $validated['id_customer'])
                      ->with('success', 'Pesanan baru berhasil dibuat');
+}
+
+
+
+
+public function print($id_pesanan)
+{
+    $order = Pesanan::with(['customer', 'layanan'])->findOrFail($id_pesanan);
+    
+    $pdf = PDF::loadView('Customer.nota', compact('order'));
+    
+    return $pdf->download('nota-laundry-'.$order->id_pesanan.'.pdf');
+    
+    // Atau jika ingin preview dulu:
+    // return $pdf->stream('nota-laundry-'.$order->id_pesanan.'.pdf');
 }
 }

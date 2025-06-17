@@ -48,6 +48,46 @@ class CustomerAuthController extends Controller
     {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/customer/login');
+        return redirect('/login');
     }
+
+   // Menampilkan form registrasi
+    public function showRegistrationForm()
+    {
+        return view('Customer.register_customer');
+    }
+
+    // Proses registrasi
+    public function register(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'nama_panjang' => 'required|string|max:100',
+            'username' => 'required|string|max:50|unique:tbl_customer,username',
+            'email' => 'nullable|email|max:100|unique:tbl_customer,email',
+            'tlp' => 'required|string|max:20',
+            'alamat' => 'nullable|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Membuat customer baru (ID otomatis dari model)
+        Customer::create([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'nama_panjang' => $request->nama_panjang,
+            'tlp' => $request->tlp,
+            'alamat' => $request->alamat,
+        ]);
+
+        // Redirect ke halaman sukses
+        return redirect()->route('registration.success');
+    }
+
+    // Halaman sukses registrasi
+    public function registrationSuccess()
+    {
+        return view('Customer.berhasil_register');
+    }
+    
 }

@@ -123,10 +123,17 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('orders.show', $order->id_pesanan) }}" class="btn btn-sm btn-info">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </td>
+    <div class="d-flex justify-content-between align-items-center">
+        <a href="{{ route('orders.show', $order->id_pesanan) }}" class="btn btn-sm btn-info">
+            <i class="fas fa-eye"></i>
+        </a>
+        <a href="{{ route('customer.orders.print', ['id_pesanan' => $order->id_pesanan]) }}" 
+           class="btn btn-sm btn-secondary ml-2" 
+           target="_blank">
+            <i class="fas fa-print"></i>
+        </a>
+    </div>
+</td>
                                 </tr>
                                 @endforeach
                             </tbody>

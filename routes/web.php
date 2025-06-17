@@ -101,6 +101,16 @@ Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('cu
 Route::post('/login', [CustomerAuthController::class, 'login'])->name('customer.login.submit');
 Route::post('/customer/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
+Route::prefix('customer')->group(function () {
+    // Registrasi
+    Route::get('/register', [CustomerAuthController::class, 'showRegistrationForm'])->name('customer.register');
+    Route::post('/register', [CustomerAuthController::class, 'register'])->name('customer.register.submit');
+    
+    // Halaman sukses registrasi
+    Route::get('/registration-success', [CustomerAuthController::class, 'registrationSuccess'])
+         ->name('registration.success');
+});
+
 // Rute untuk pelanggan
 Route::prefix('customer')->name('customer.')->group(function () {
     // Dashboard
@@ -118,3 +128,5 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/{id_pesanan}', [UserOrderController::class, 'show'])->name('show');
     });
 });
+
+Route::get('/customer/orders/print/{id_pesanan}', [PesananController::class, 'print'])->name('customer.orders.print');
