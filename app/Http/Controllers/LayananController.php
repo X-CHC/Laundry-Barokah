@@ -33,28 +33,34 @@ class LayananController extends Controller
      */
     public function create()
     {
-        return view('Admin.layanan.create');
+        return view('Admin.tambah_layanan');
     }
 
     /**
      * Store a newly created service.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_layanan' => 'required|string|max:6|unique:layanans',
-            'nama_layanan' => 'required|string|max:100',
-            'deskripsi' => 'nullable|string',
-            'harga_per_kg' => 'required|numeric|min:0',
-            'estimasi_durasi' => 'required|integer|min:1',
-            'status_layanan' => 'required|in:aktif,t_aktif',
-        ]);
+{
+    $request->validate([
+        'nama_layanan' => 'required|string|max:100',
+        'deskripsi' => 'nullable|string',
+        'harga_per_kg' => 'required|numeric|min:0',
+        'estimasi_durasi' => 'required|integer|min:1',
+        // status_layanan dihapus dari validation karena sudah dihandle model
+    ]);
 
-        Layanan::create($request->all());
+    // ID akan otomatis dibuat oleh model
+    Layanan::create([
+        'nama_layanan' => $request->nama_layanan,
+        'deskripsi' => $request->deskripsi,
+        'harga_per_kg' => $request->harga_per_kg,
+        'estimasi_durasi' => $request->estimasi_durasi
+        // status_layanan tidak perlu dimasukkan karena sudah default 'aktif'
+    ]);
 
-        return redirect()->route('admin.layanan.index')
-            ->with('success', 'Layanan berhasil ditambahkan');
-    }
+    return redirect()->route('admin.layanan.index')
+        ->with('success', 'Layanan berhasil ditambahkan');
+}
 
     /**
      * Display the specified service.

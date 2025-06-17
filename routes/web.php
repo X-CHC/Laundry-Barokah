@@ -30,6 +30,9 @@ Route::put('/pesanan/{id_pesanan}', [PesananController::class, 'update'])
      ->name('orders.update');
 Route::get('/orders/create/{customer}', [PesananController::class, 'create'])->name('orders.create');
 Route::post('/daftar-layanan', [PesananController::class, 'store'])->name('orders.store');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('layanan', LayananController::class)->except(['show']); });
+
 
 // Customer Routes with prefix
 Route::prefix('customers.')->name('customers.')->group(function () {

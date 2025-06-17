@@ -11,8 +11,9 @@ class Layanan extends Model
 
     protected $table = 'tbl_layanan';
     protected $primaryKey = 'id_layanan';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id_layanan',
@@ -20,10 +21,26 @@ class Layanan extends Model
         'deskripsi',
         'harga_per_kg',
         'estimasi_durasi',
-        'status_layanan',
+        'status_layanan'
     ];
 
-    protected $casts = [
-        'harga_per_kg' => 'decimal:2',
+    protected $attributes = [
+        'status_layanan' => 'aktif' // Default value
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id_layanan)) {
+                $lastId = self::orderBy('id_layanan', 'desc')->first()?->id_layanan;
+                $number = $lastId ? (int) str_replace('LYN', '', $lastId) + 1 : 1;
+                $model->id_layanan = 'LYN' . str_pad($number, 3, '0', STR_PAD_LEFT);
+            }
+            
+            // Force status to aktif
+            $model->status_layanan = 'aktif';
+        });
+    }
 }
