@@ -113,18 +113,31 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="metode_pembayaran">Metode Pembayaran</label>
-                            <select class="form-control @error('metode_pembayaran') is-invalid @enderror" 
-                                    id="metode_pembayaran" name="metode_pembayaran" required>
-                                <option value="">-- Pilih Pembayaran --</option>
-                                <option value="cash" {{ old('metode_pembayaran') == 'cash' ? 'selected' : '' }}>Tunai (Cash)</option>
-                                <option value="qris" {{ old('metode_pembayaran') == 'qris' ? 'selected' : '' }}>QRIS</option>
-                            </select>
-                            @error('metode_pembayaran')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <div class="form-group mb-3">
+    <label class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <select class="form-select @error('metode_pembayaran') is-invalid @enderror" 
+                    id="metode_pembayaran" name="metode_pembayaran" required>
+                <option value="">-- Pilih Pembayaran --</option>
+                <option value="cash" {{ old('metode_pembayaran') == 'cash' ? 'selected' : '' }}>Cash</option>
+                <option value="qris" {{ old('metode_pembayaran') == 'qris' ? 'selected' : '' }}>QRIS</option>
+            </select>
+            @error('metode_pembayaran')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col-md-4" id="qris-scan-container" style="display: none;">
+            <button type="button" class="btn btn-outline-primary w-100" 
+                    onclick="window.open('{{ asset('qrcode/barcode.jpg') }}', '_blank')">
+                <i class="fas fa-qrcode me-1"></i> Scan QRIS
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
 
                         <div class="form-group">
                             <label for="catatan">Catatan (Opsional)</label>
@@ -196,4 +209,28 @@
         beratInput.addEventListener('input', updateHargaInfo);
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethod = document.getElementById('metode_pembayaran');
+    const qrisScanContainer = document.getElementById('qris-scan-container');
+
+    // Fungsi untuk menampilkan/menyembunyikan tombol scan
+    function toggleQrisButton() {
+        if (paymentMethod.value === 'qris') {
+            qrisScanContainer.style.display = 'block';
+        } else {
+            qrisScanContainer.style.display = 'none';
+        }
+    }
+
+    // Event listener untuk perubahan select
+    paymentMethod.addEventListener('change', toggleQrisButton);
+    
+    // Jalankan sekali saat halaman dimuat
+    toggleQrisButton();
+});
+</script>
+@section('scripts')
+
+
 @endsection

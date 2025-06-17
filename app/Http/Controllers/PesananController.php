@@ -115,8 +115,7 @@ public function cancel($id_pesanan)
     return back()->with('success', 'Pesanan berhasil dibatalkan');
     }
 
-    // Untuk konfirmasi pembayaran
-public function uploadPayment(Request $request, $id_pesanan)
+    public function uploadPayment(Request $request, $id_pesanan)
 {
     $request->validate([
         'metode_pembayaran' => 'required|in:cash,qris',

@@ -62,6 +62,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-start border-danger border-4 shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-danger mb-1">
+                                Orderan Dibatalkan</div>
+                            <div class="h5 mb-0 fw-bold">{{ $canceledOrders }}</div>
+                            <div class="progress mt-2" style="height: 5px">
+                                @php
+                                    $cancelPercentage = $todayOrders > 0 ? ($canceledOrders / $todayOrders) * 100 : 0;
+                                @endphp
+                                <div class="progress-bar bg-danger" style="width: {{ $cancelPercentage }}%"></div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times-circle fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="card shadow mb-4">
