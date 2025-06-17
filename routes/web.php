@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomerAuthController;
+use App\Http\Controllers\UserController ;
+use App\Http\Controllers\UserOrderController;
 
 // Authentication Routes
 Route::get('/admin', [AuthController::class, 'showLoginForm'])->name('login');
@@ -81,4 +84,34 @@ Route::get('/detail-anggota', function () {
 });
 Route::get('/login', function () {
     return view('Customer.login');
+});
+
+
+
+
+
+
+// customer
+// Customer Auth Routes
+// routes/web.php
+Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('customer.login');
+Route::post('/login', [CustomerAuthController::class, 'login'])->name('customer.login.submit');
+Route::post('/customer/logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+
+// Rute untuk pelanggan
+Route::prefix('customer')->name('customer.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    
+    // Profil
+    Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    
+    // Pesanan
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [UserOrderController::class, 'index'])->name('index');
+        Route::get('/create', [UserOrderController::class, 'create'])->name('create');
+        Route::post('/', [UserOrderController::class, 'store'])->name('store');
+        Route::get('/{id_pesanan}', [UserOrderController::class, 'show'])->name('show');
+    });
 });

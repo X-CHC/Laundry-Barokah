@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin - LaundryKu</title>
+    <title>Login Pelanggan - LaundryKu</title>
     <!-- Bootstrap 5 CSS -->
     <link href="{{ asset('boostrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('fontsawesome/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/login_customer.css') }}" rel="stylesheet">
-   
+    <link href="{{ asset('css/login_customer.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="login-container">
@@ -51,38 +50,56 @@
                             <p class="mb-0">Area dalam radius 5 km</p>
                         </div>
                     </div>
-                    
-                
                 </div>
             </div>
             
-
             <div class="login-right">
-
                 <!-- Login Form Area -->
                 <div class="login-section">
                     <h4 class="mb-3">Sudah Punya Akun?</h4>
                     <p class="text-muted mb-3">Masuk untuk melihat riwayat order dan status laundry</p>
                     
-                    <form>
+                    <form method="POST" action="{{ route('customer.login.submit') }}">
+                        @csrf
+                        
                         <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light">
-                                    <i class="fas fa-envelope text-muted"></i>
-                                </span>
-                                <input type="email" class="form-control" placeholder="Email/No. HP" required>
-                            </div>
-                        </div>
+    <div class="input-group">
+        <span class="input-group-text bg-light">
+            <i class="fas fa-user text-muted"></i>
+        </span>
+        <input type="text" 
+               class="form-control @error('login') is-invalid @enderror" 
+               name="login" 
+               placeholder="Email/Username" 
+               value="{{ old('login') }}"
+               required>
+        @error('login')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+</div>
                         
                         <div class="mb-3">
                             <div class="input-group">
                                 <span class="input-group-text bg-light">
                                     <i class="fas fa-lock text-muted"></i>
                                 </span>
-                                <input type="password" class="form-control" placeholder="Password" required>
-                                <button class="btn btn-outline-secondary" type="button">
+                                <input type="password" 
+                                       class="form-control @error('password') is-invalid @enderror" 
+                                       id="password"
+                                       name="password" 
+                                       placeholder="Password" 
+                                       required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                     <i class="fas fa-eye"></i>
                                 </button>
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         
@@ -91,7 +108,6 @@
                         </button>
                         
                         <div class="d-flex justify-content-between">
-                            <a href="#" class="small text-primary">Lupa password?</a>
                             <a href="#" class="small text-primary">Daftar Akun</a>
                         </div>
                     </form>
@@ -101,6 +117,21 @@
     </div>
 
     <script src="{{ asset('js/login_customer.js') }}"></script>
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    </script>
     <script src="{{ asset('boostrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
