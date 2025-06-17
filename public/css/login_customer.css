@@ -1,0 +1,176 @@
+:root {
+    --primary: #4e73df;
+    --secondary: #1cc88a;
+    --light: #f8f9fc;
+}
+
+
+body {
+    background: linear-gradient(135deg, #f8f9fc 0%, #e3e6f0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.login-card {
+    border: none;
+    border-radius: 1.25rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.login-left {
+    background: var(--primary);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 0 50%;
+}
+
+.login-right {
+    background: white;
+    padding: 2rem;
+    flex: 1 0 50%;
+}
+
+.brand-logo {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-login {
+    background: var(--primary);
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    background: #3a5bc7;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: #6c757d;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e3e6f0;
+}
+
+.divider span {
+    position: relative;
+    background: white;
+    padding: 0 1rem;
+}
+
+.feature-list {
+    margin-top: 1.5rem;
+}
+
+.feature-item {
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.feature-icon {
+    background: rgba(255, 255, 255, 0.2);
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    body {
+        padding: 15px 0;
+        display: block;
+    }
+    
+    .login-card {
+        flex-direction: column;
+    }
+    
+    .login-left, .login-right {
+        flex: 1 0 100%;
+        padding: 1.5rem;
+    }
+    
+    .brand-logo {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.4rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+    
+    .feature-item {
+        margin-bottom: 1rem;
+    }
+    
+    .feature-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-left, .login-right {
+        padding: 1.25rem;
+    }
+    
+    .form-control {
+        padding: 0.65rem;
+    }
+    
+    .btn-login {
+        padding: 0.65rem;
+    }
+    
+    .feature-item h5 {
+        font-size: 1rem;
+    }
+    
+    .feature-item p {
+        font-size: 0.85rem;
+    }
+}
