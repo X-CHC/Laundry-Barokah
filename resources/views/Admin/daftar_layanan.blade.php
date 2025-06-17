@@ -10,12 +10,9 @@
                 <i class="fas fa-concierge-bell me-2"></i>Daftar Layanan
             </h6>
             <div>
-                <a href="{{ route('admin.layanan.create') }}" class="btn btn-sm btn-outline-secondary">
+                <a href="{{ route('admin.layanan.create') }}" class="btn btn-sm btn-primary">
                     <i class="fas fa-plus me-1"></i>Tambah Layanan
                 </a>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="fas fa-filter me-1"></i>Filter
-                </button>
             </div>
         </div>
         <div class="card-body">

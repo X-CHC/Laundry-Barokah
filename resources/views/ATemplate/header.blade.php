@@ -16,8 +16,7 @@
           <i class="bi bi-person-circle me-1"></i> AKUN
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="/profil"><i class="bi bi-person me-2"></i>Profil</a></li>
-          <li><a class="dropdown-item" href="/login-admin"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+          <li><a class="dropdown-item" href="/admin"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
         </ul>
       </div>
     </div>
