@@ -90,57 +90,84 @@
 
                     <!-- Service Selection Section -->
                     <div class="col-md-6">
-                        <h5 class="mb-3 text-primary"><i class="fas fa-tags me-2"></i>Layanan</h5>
-                        
-                        <div class="form-group mb-3">
-                            <label class="form-label">Jenis Layanan <span class="text-danger">*</span></label>
-                            <select class="form-select @error('layanan') is-invalid @enderror" id="layanan" name="layanan" required>
-                                <option selected disabled value="">Pilih Layanan</option>
-                                @foreach($services as $service)
-                                    <option value="{{ $service->id_layanan }}" data-harga="{{ $service->harga_per_kg }}" {{ old('layanan') == $service->id_layanan ? 'selected' : '' }}>
-                                        {{ $service->nama_layanan }} ({{ $service->estimasi_durasi }} hari) - Rp{{ number_format($service->harga_per_kg, 0, ',', '.') }}/kg
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('layanan')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+    <h5 class="mb-3 text-primary"><i class="fas fa-tags me-2"></i>Layanan</h5>
+    
+    <div class="form-group mb-3">
+        <label class="form-label">Jenis Layanan <span class="text-danger">*</span></label>
+        <select class="form-select @error('layanan') is-invalid @enderror" id="layanan" name="layanan" required>
+            <option selected disabled value="">Pilih Layanan</option>
+            @foreach($services as $service)
+                <option value="{{ $service->id_layanan }}" data-harga="{{ $service->harga_per_kg }}" {{ old('layanan') == $service->id_layanan ? 'selected' : '' }}>
+                    {{ $service->nama_layanan }} ({{ $service->estimasi_durasi }} hari) - Rp{{ number_format($service->harga_per_kg, 0, ',', '.') }}/kg
+                </option>
+            @endforeach
+        </select>
+        @error('layanan')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
 
-                        <div class="row">
-                            <div class="col-md-6 form-group mb-3">
-                                <label for="berat" class="form-label">Berat (kg) <span class="text-danger">*</span></label>
-                                <input type="number" step="0.1" class="form-control @error('berat') is-invalid @enderror" id="berat" name="berat" min="0.1" value="{{ old('berat', 1) }}" required>
-                                @error('berat')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 form-group mb-3">
-                                <label for="tglPengambilan" class="form-label">Tanggal Pengambilan <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control @error('tglPengambilan') is-invalid @enderror" id="tglPengambilan" name="tglPengambilan" value="{{ old('tglPengambilan') }}" required>
-                                @error('tglPengambilan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
+    <div class="row">
+        <div class="col-md-6 form-group mb-3">
+            <label for="berat" class="form-label">Berat (kg) <span class="text-danger">*</span></label>
+            <input type="number" step="0.1" class="form-control @error('berat') is-invalid @enderror" id="berat" name="berat" min="0.1" value="{{ old('berat', 1) }}" required>
+            @error('berat')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col-md-6 form-group mb-3">
+            <label for="tglPengambilan" class="form-label">Tanggal Pengambilan <span class="text-danger">*</span></label>
+            <input type="date" class="form-control @error('tglPengambilan') is-invalid @enderror" id="tglPengambilan" name="tglPengambilan" value="{{ old('tglPengambilan') }}" required>
+            @error('tglPengambilan')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
-                            <div class="form-check">
-                                <input class="form-check-input @error('payment') is-invalid @enderror" type="radio" 
-                                    name="payment" id="cash" value="cash" 
-                                    {{ old('payment', 'cash') == 'cash' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="cash">Cash</label>
-                            </div>
-                                                        <div class="form-check">
-                                <input class="form-check-input @error('payment') is-invalid @enderror" type="radio" name="payment" id="transfer" value="qris" {{ old('payment') == 'qris' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="transfer">Qris</label>
-                            </div>
-                            @error('payment')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
+        <div class="d-flex align-items-center gap-3">
+            <div class="flex-grow-1">
+                <div class="form-check">
+                    <input class="form-check-input @error('payment') is-invalid @enderror" type="radio" 
+                        name="payment" id="cash" value="cash" 
+                        {{ old('payment', 'cash') == 'cash' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="cash">Cash</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input @error('payment') is-invalid @enderror" type="radio" 
+                        name="payment" id="qris" value="qris" 
+                        {{ old('payment') == 'qris' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="qris">QRIS</label>
+                </div>
+                @error('payment')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
+            <!-- QRIS Scan Button (hidden by default) -->
+            <div id="qrisScanButton" style="display: none;">
+                <button type="button" class="btn btn-outline-primary" onclick="window.open('{{ asset('qrcode/barcode.jpg') }}', '_blank')">
+                    <i class="fas fa-qrcode me-1"></i> Scan QRIS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bukti Pembayaran Field (shown only when QRIS is selected) -->
+    <div class="form-group mb-3" id="buktiBayarContainer" style="display: none;">
+        <label for="bukti_bayar" class="form-label">Upload Bukti Bayar <span class="text-danger">*</span></label>
+        <input type="file" class="form-control @error('bukti_bayar') is-invalid @enderror" 
+               id="bukti_bayar" name="bukti_bayar" accept="image/*">
+        @error('bukti_bayar')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <small class="text-muted">Format: JPG, PNG (Maks. 2MB)</small>
+    </div>
+</div>
+
+
+
+
                 </div>
 
                 <!-- Summary & Submit -->
@@ -230,5 +257,69 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hitung total saat pertama kali load
     calculateTotal();
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show/hide payment proof field based on payment method
+        const paymentMethods = document.querySelectorAll('input[name="payment"]');
+        const buktiBayarContainer = document.getElementById('buktiBayarContainer');
+        const buktiBayarInput = document.getElementById('bukti_bayar');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function() {
+                if (this.value === 'qris') {
+                    buktiBayarContainer.style.display = 'block';
+                    buktiBayarInput.required = true;
+                } else {
+                    buktiBayarContainer.style.display = 'none';
+                    buktiBayarInput.required = false;
+                }
+            });
+        });
+
+        // Initialize on page load if qris was previously selected
+        if (document.querySelector('input[name="payment"]:checked')?.value === 'qris') {
+            buktiBayarContainer.style.display = 'block';
+            buktiBayarInput.required = true;
+        }
+
+        // Set minimum date for pickup (today)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tglPengambilan').min = today;
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show/hide payment proof field and scan button based on payment method
+        const paymentMethods = document.querySelectorAll('input[name="payment"]');
+        const buktiBayarContainer = document.getElementById('buktiBayarContainer');
+        const buktiBayarInput = document.getElementById('bukti_bayar');
+        const qrisScanButton = document.getElementById('qrisScanButton');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function() {
+                if (this.value === 'qris') {
+                    buktiBayarContainer.style.display = 'block';
+                    qrisScanButton.style.display = 'block';
+                    buktiBayarInput.required = true;
+                } else {
+                    buktiBayarContainer.style.display = 'none';
+                    qrisScanButton.style.display = 'none';
+                    buktiBayarInput.required = false;
+                }
+            });
+        });
+
+        // Initialize on page load if qris was previously selected
+        if (document.querySelector('input[name="payment"]:checked')?.value === 'qris') {
+            buktiBayarContainer.style.display = 'block';
+            qrisScanButton.style.display = 'block';
+            buktiBayarInput.required = true;
+        }
+
+        // Set minimum date for pickup (today)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tglPengambilan').min = today;
+    });
 </script>
 @endpush

@@ -31,34 +31,34 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">LaundryKu</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('customer.dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('customer.orders.create') }}">Buat Pesanan</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="nav-link">Halo, {{ $customer->nama_panjang }}</span>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ route('customer.logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <a class="navbar-brand" href="#">LaundryKu</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ route('customer.dashboard') }}"><i class="fas fa-home me-1"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('customer.orders.create') }}"><i class="fas fa-plus-circle me-1"></i> Buat Pesanan</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <span class="nav-link"><i class="fas fa-user me-1"></i> Halo, {{ $customer->nama_panjang }}</span>
+                </li>
+                <li class="nav-item">
+                    <form action="{{ route('customer.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link"><i class="fas fa-sign-out-alt me-1"></i> Logout</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Konten Utama -->
     <div class="container py-5">

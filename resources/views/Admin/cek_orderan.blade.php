@@ -10,9 +10,6 @@
                 <i class="fas fa-clipboard-list mr-2"></i>Daftar Orderan Laundry
             </h6>
             <div>
-                <button class="btn btn-sm btn-success mr-2">
-                    <i class="fas fa-file-excel mr-1"></i>Export Excel
-                </button>
                 <button class="btn btn-sm btn-primary" id="filterButton" data-toggle="modal" data-target="#filterModal">
     <i class="fas fa-filter mr-1"></i>Filter
 </button>

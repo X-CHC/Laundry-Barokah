@@ -10,12 +10,9 @@
                 <i class="fas fa-users me-2"></i>Daftar Anggota
             </h6>
             <div>
-                <a href="/pendaftaran" class="btn btn-sm btn-outline-secondary">
+                <a href="/pendaftaran" class="btn btn-sm btn-primary">
                     <i class="fas fa-plus me-1"></i>Tambah Anggota
                 </a>
-                <button class="btn btn-sm btn-outline-secondary">
-                    <i class="fas fa-filter me-1"></i>Filter
-                </button>
             </div>
         </div>
         <div class="card-body">

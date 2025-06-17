@@ -154,55 +154,68 @@ class CustomerController extends Controller
      * Register new customer with order.
      */
     public function register(Request $request)
-    {
-        // Validasi data customer
-        $validatedCustomer = $request->validate([
-            'nama' => 'required|string|max:100',
-            'noHp' => 'required|string|max:20',
-            'email' => 'nullable|email|max:100|unique:tbl_customer,email',
-            'alamat' => 'nullable|string',
-            'username' => 'required|string|max:50|unique:tbl_customer,username',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+{
+    // Validasi data customer
+    $validatedCustomer = $request->validate([
+        'nama' => 'required|string|max:100',
+        'noHp' => 'required|string|max:20',
+        'email' => 'nullable|email|max:100|unique:tbl_customer,email',
+        'alamat' => 'nullable|string',
+        'username' => 'required|string|max:50|unique:tbl_customer,username',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
 
-        // Validasi data order
-        $validatedOrder = $request->validate([
-            'layanan' => 'required|exists:tbl_layanan,id_layanan',
-            'berat' => 'required|numeric|min:0.1',
-            'tglPengambilan' => 'required|date|after_or_equal:today',
-            'payment' => 'required|in:cash,qris',
-            'catatan' => 'nullable|string',
-        ]);
+    // Validasi data order dengan tambahan validasi bukti bayar untuk QRIS
+    $validatedOrder = $request->validate([
+        'layanan' => 'required|exists:tbl_layanan,id_layanan',
+        'berat' => 'required|numeric|min:0.1',
+        'tglPengambilan' => 'required|date|after_or_equal:today',
+        'payment' => 'required|in:cash,qris',
+        'bukti_bayar' => 'required_if:payment,qris|image|mimes:jpeg,png,jpg|max:2048',
+        'catatan' => 'nullable|string',
+    ]);
 
-        // Buat Customer
-        $customer = Customer::create([
-            'username' => $validatedCustomer['username'],
-            'password' => Hash::make($validatedCustomer['password']),
-            'email' => $validatedCustomer['email'] ?? null,
-            'nama_panjang' => $validatedCustomer['nama'],
-            'tlp' => $validatedCustomer['noHp'],
-            'alamat' => $validatedCustomer['alamat'] ?? null,
-            'status_akun' => 'aktif',
-        ]);
+    // Buat Customer
+    $customer = Customer::create([
+        'username' => $validatedCustomer['username'],
+        'password' => Hash::make($validatedCustomer['password']),
+        'email' => $validatedCustomer['email'] ?? null,
+        'nama_panjang' => $validatedCustomer['nama'],
+        'tlp' => $validatedCustomer['noHp'],
+        'alamat' => $validatedCustomer['alamat'] ?? null,
+        'status_akun' => 'aktif',
+    ]);
 
-        // Buat Pesanan
-        $layanan = Layanan::findOrFail($validatedOrder['layanan']);
-        
-        Pesanan::create([
-            'id_customer' => $customer->id_customer,
-            'id_layanan' => $validatedOrder['layanan'],
-            'jumlah' => $validatedOrder['berat'],
-            'price' => $layanan->harga_per_kg * $validatedOrder['berat'],
-            'tglPengambilan' => $validatedOrder['tglPengambilan'],
-            'metode_pembayaran' => $validatedOrder['payment'],
-            'catatan' => $validatedOrder['catatan'] ?? null,
-            'status' => 'pending',
-        ]);
+    // Buat Pesanan
+    $layanan = Layanan::findOrFail($validatedOrder['layanan']);
+    
+    $dataPesanan = [
+        'id_customer' => $customer->id_customer,
+        'id_layanan' => $validatedOrder['layanan'],
+        'jumlah' => $validatedOrder['berat'],
+        'price' => $layanan->harga_per_kg * $validatedOrder['berat'],
+        'tglPengambilan' => $validatedOrder['tglPengambilan'],
+        'metode_pembayaran' => $validatedOrder['payment'],
+        'catatan' => $validatedOrder['catatan'] ?? null,
+        'status' => 'pending',
+    ];
 
-        return redirect()->back()
-            ->with('success', 'Registrasi dan pemesanan berhasil!')
-            ->withInput($request->except('password', 'password_confirmation'));
+    // Handle bukti bayar jika metode QRIS
+    if ($validatedOrder['payment'] == 'qris' && $request->hasFile('bukti_bayar')) {
+        $file = $request->file('bukti_bayar');
+        $filename = 'qris_'.time().'_'.$customer->id_customer.'.'.$file->extension();
+        $path = $file->storeAs('bukti_bayar', $filename, 'public');
+        $dataPesanan['bukti_bayar'] = $filename;
+    } else {
+        $dataPesanan['bukti_bayar'] = '-';
     }
+
+    Pesanan::create($dataPesanan);
+
+    return redirect()->back()
+        ->with('success', 'Registrasi dan pemesanan berhasil!')
+        ->withInput($request->except('password', 'password_confirmation'));
+}
     
     
 }
