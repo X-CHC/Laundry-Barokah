@@ -136,11 +136,22 @@
         </div>
         
         <div class="card-footer text-right">
-            <!-- Button trigger -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
-                <i class="fas fa-times-circle mr-1"></i>Batalkan Pesanan
-            </button>
-        </div>
+    @if($order->status == 'pending' || $order->status == 'baru')
+        <button type="button" class="btn btn-warning mr-2" data-bs-toggle="modal" data-bs-target="#pickupModal">
+            <i class="fas fa-truck-pickup mr-1"></i> Konfirmasi Penjemputan
+        </button>
+    @endif
+    
+    @if($order->status == 'selesai')
+        <button type="button" class="btn btn-success mr-2" data-bs-toggle="modal" data-bs-target="#deliveryModal">
+            <i class="fas fa-truck mr-1"></i> Konfirmasi Pengiriman
+        </button>
+    @endif
+    
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
+        <i class="fas fa-times-circle mr-1"></i> Batalkan Pesanan
+    </button>
+</div>
     </div>
 </div>
 
@@ -209,6 +220,68 @@
     </div>
 </div>
 
+<!-- Pickup Confirmation Modal -->
+<div class="modal fade" id="pickupModal" tabindex="-1" role="dialog" aria-labelledby="pickupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pickupModalLabel">Konfirmasi Penjemputan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin mengubah status pesanan #{{ $order->id_pesanan }} menjadi "Penjemputan"?
+                <div class="alert alert-info mt-2">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Status akan berubah.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <form action="{{ route('orders.pickup', $order->id_pesanan) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-truck-pickup mr-1"></i> Ya, Konfirmasi
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delivery Confirmation Modal -->
+<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deliveryModalLabel">Konfirmasi Pengiriman</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin mengubah status pesanan #{{ $order->id_pesanan }} menjadi "Pengantaran" (Telah Dikirim)?
+                <div class="alert alert-success mt-2">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Status akan berubah.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <form action="{{ route('orders.deliver', $order->id_pesanan) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check mr-1"></i> Ya, Selesaikan
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -221,5 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 @endpush
 @endsection

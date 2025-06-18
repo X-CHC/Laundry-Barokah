@@ -194,4 +194,38 @@ public function print($id_pesanan)
     // Atau jika ingin preview dulu:
     // return $pdf->stream('nota-laundry-'.$order->id_pesanan.'.pdf');
 }
+
+
+
+public function markAsPickedUp($id_pesanan)
+{
+    $order = Pesanan::findOrFail($id_pesanan);
+    
+    // Validate order can be picked up (status must be 'pending' or 'process')
+    if (!in_array($order->status, ['pending', 'proses'])) {
+        return back()->with('error', 'Status pesanan tidak dapat diubah ke penjemputan');
+    }
+
+    $order->update([
+        'status' => 'penjemputan',
+    ]);
+
+    return back()->with('success', 'Status pesanan berhasil diubah menjadi dalam penjemputan');
+}
+
+public function markAsDelivered($id_pesanan)
+{
+    $order = Pesanan::findOrFail($id_pesanan);
+    
+    // Validate order can be delivered (status must be 'penjemputan' or 'proses')
+    if ($order->status !== 'proses') {
+        return back()->with('error', 'Status pesanan harus dalam penjemputan sebelum dikirim');
+    }
+
+    $order->update([
+        'status' => 'pengiriman',
+    ]);
+
+    return back()->with('success', 'Status pesanan berhasil diubah menjadi selesai (telah dikirim)');
+}
 }

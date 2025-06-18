@@ -34,6 +34,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('layanan', LayananController::class)->except(['show']); });
 
 
+
+    // Update status routes
+Route::patch('/orders/{id_pesanan}/pickup', [PesananController::class, 'markAsPickedUp'])
+    ->name('orders.pickup');
+Route::patch('/orders/{id_pesanan}/deliver', [PesananController::class, 'markAsDelivered'])
+    ->name('orders.deliver');
+
 // Customer Routes with prefix
 Route::prefix('customers.')->name('customers.')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('index');

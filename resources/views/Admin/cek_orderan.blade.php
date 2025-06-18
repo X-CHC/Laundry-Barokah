@@ -57,7 +57,7 @@
                                 </a>
                                 
                                <!-- Button Ubah Status -->
-@if($order->status == 'proses')
+@if($order->status == 'pengiriman')
     <form action="{{ route('orders.update-status', $order->id_pesanan) }}" 
         method="POST" 
         class="d-inline"
@@ -71,7 +71,7 @@
             <i class="fas fa-check"></i>
         </button>
     </form>
-@elseif($order->status == 'pending')
+@elseif($order->status == 'penjemputan')
     <form action="{{ route('orders.update-status', $order->id_pesanan) }}" 
         method="POST" 
         class="d-inline"
@@ -92,6 +92,12 @@
                                     @switch($order->status)
                                         @case('pending')
                                             <span class="badge badge-primary">Baru</span>
+                                            @break
+                                        @case('penjemputan')
+                                            <span class="badge badge-warning">Penjemputan</span>
+                                            @break
+                                        @case('pengiriman')
+                                            <span class="badge badge-success">Penjemputan</span>
                                             @break
                                         @case('proses')
                                             <span class="badge badge-warning">Proses</span>

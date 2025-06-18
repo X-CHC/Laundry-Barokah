@@ -52,10 +52,6 @@
                                 <th>Email</th>
                                 <td>{{ $customer->email ?? '-' }}</td>
                             </tr>
-                            <tr>
-                                <th>No. Telepon</th>
-                                <td>{{ $customer->tlp }}</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -73,12 +69,8 @@
                                 <td>{{ $customer->created_at->format('d/m/Y H:i') }}</td>
                             </tr>
                             <tr>
-                                <th>Status Akun</th>
-                                <td>
-                                    <span class="badge {{ $customer->status_akun == 'aktif' ? 'badge-success' : 'badge-danger' }}">
-                                        {{ ucfirst($customer->status_akun) }}
-                                    </span>
-                                </td>
+                                <th>No. Telepon</th>
+                                <td>{{ $customer->tlp }}</td>
                             </tr>
                             <tr>
                                 <th>Total Pesanan</th>
@@ -116,11 +108,14 @@
                                     <td>Rp {{ number_format($order->price, 0, ',', '.') }}</td>
                                     <td>
                                         <span class="badge 
-                                            {{ $order->status == 'selesai' ? 'badge-success' : 
-                                               ($order->status == 'proses' ? 'badge-primary' : 
-                                               ($order->status == 'pending' ? 'badge-warning' : 'badge-secondary')) }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
+    {{ $order->status == 'selesai' ? 'badge-success' : 
+       ($order->status == 'proses' ? 'badge-warning' : 
+       ($order->status == 'penjemputan' ? 'badge-warning' : 
+       ($order->status == 'batal' ? 'bg-danger' :
+       ($order->status == 'pengiriman' ? 'badge-success' : 
+       ($order->status == 'pending' ? 'badge-primary' : 'badge-secondary'))))) }}">
+    {{ ucfirst($order->status) }}
+</span>
                                     </td>
                                     <td>
     <div class="d-flex justify-content-between align-items-center">

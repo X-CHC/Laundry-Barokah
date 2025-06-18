@@ -64,7 +64,7 @@
                             <select class="form-select @error('status_layanan') is-invalid @enderror" 
                                     id="status_layanan" name="status_layanan" required>
                                 <option value="aktif" {{ old('status_layanan', $layanan->status_layanan) == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                                <option value="nonaktif" {{ old('status_layanan', $layanan->status_layanan) == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                <option value="t_aktif" {{ old('status_layanan', $layanan->status_layanan) == 't_aktif' ? 'selected' : '' }}>Nonaktif</option>
                             </select>
                             @error('status_layanan')
                                 <div class="invalid-feedback">{{ $message }}</div>

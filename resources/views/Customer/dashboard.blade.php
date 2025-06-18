@@ -149,7 +149,8 @@
         <td>{{ $order->layanan->nama_layanan ?? 'Layanan tidak ditemukan' }}</td>
         <td>
             <span class="badge 
-                @if($order->status == 'selesai') bg-success
+                @if($order->status == 'pengiriman') bg-success
+                @elseif($order->status == 'penjemputan') bg-warning text-dark
                 @elseif($order->status == 'proses') bg-warning text-dark
                 @elseif($order->status == 'pending') bg-primary
                 @else bg-secondary
